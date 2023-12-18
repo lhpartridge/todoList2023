@@ -34,9 +34,11 @@
  */
 
 let tasks = [];
+let completedTasksArray = [];
 const newTaskForm = document.getElementById('newTaskForm');
 const newTaskSubmit = document.getElementById('newTaskSubmit');
 const taskList = document.getElementById('taskList');
+const completedTasksList = document.getElementById('completedTasksList');
 
 const formData =()=> {
     const nameInput = document.getElementById('newTask').value;    
@@ -44,72 +46,75 @@ const formData =()=> {
         console.log('task name is undefined');
     } 
     else {
-        addTask();
+        addNewTask();
     }
 }
 
-const addTask =()=> {
-    // console.log('before adding new task', tasks);
+const addNewTask =()=> {
     let newTask = {
         id: tasks.length + 1,
         taskName: document.getElementById('newTask').value,
         status: false        
     }
     tasks = [...tasks, newTask];
-    const taskItem = document.createElement('li');
-    taskItem.innerHTML = `
+    addListItem(newTask);
+}
+
+const addListItem =(newTask)=> {
+    const listItem = document.createElement('li');
+    listItem.innerHTML = `
     <li class="task-item" id=item${newTask.id}>
         ${newTask.taskName}
         <label for="${newTask.taskName}Completed">completed</label>
-        <input type="checkbox" class="completed" id="${newTask.taskName}Completed"/>
+        <input type="checkbox" class="checkbox" id="${newTask.taskName}Checkbox"/>
     </li>
     `
-    // console.log('after adding new task', newTask, taskItem, tasks);
-//     // const completed = document.getElementById('${newTask}Completed');
-//     // console.log(tasks, newTask );
-    taskList.appendChild(taskItem);
-    updateTask(tasks);
+    taskList.appendChild(listItem);
 }
 
-const updateTask =(tasks)=> {
-    console.log("before updating task status", tasks);
-    let completed = false;
-    let completedTasks = document.querySelectorAll('.completed');
-    for (let i = 0; i < tasks.length; i++) {
-        const listItem = document.getElementById(`item${tasks[i].id}`);
-        console.log(listItem, tasks[i]);
-        completedTasks[i].addEventListener('click', ()=> {
+
+const updateTask =()=> {
+    const checkboxes = document.querySelectorAll('.checkbox');
+    for (let i = 0; i < checkboxes.length; i++) { 
+        if(checkboxes[i].checked == true) { 
+            checkboxes[i].classList.add('completed');
             tasks[i].status = true;
-            listItem.classList.add('completed');
-        })
+
+                // console.log(tasks[i], checkboxes[i])
+                !(completedTasksArray.includes(tasks[i])) ? 
+
+            completedTasksArray = [...completedTasksArray, tasks[i]] :
+            null
+        }
+        // console.log(i, checkboxes[i], completedTasksArray);
     }
-    console.log('after updating task status', tasks);
-    
+    addCompletedTask(completedTasksArray);
 }
 
-    
-
-    // const newTask = {
-    //     taskName: document.getElementById('newTask').value,
-    //     status: false
+addCompletedTask =(completedTasksArray)=> {
+    completedTasksArray.forEach(element => {
+    const listItem = document.createElement('li');
         
-    // }
+        listItem.innerHTML = `
+        <li class="task-item" id=item${element.id}>
+        ${element.taskName}
+        <label for="${element.taskName}Completed">completed</label>
+        <input type="checkbox" class="checkbox" id="${element.taskName}Checkbox"/>
+        </li>
+        `
+        completedTasksList.appendChild(listItem);
+    });
+    console.log(tasks, completedTasksArray)    
+    removeTaskItem()
+}
 
-    // console.log(newTask.taskName);
-    // if (newTask.taskName != '') {
-    //     tasks = [...tasks, newTask];
-    // } else {
-    //     tasks = tasks;
-    // }
-    // const taskItem = document.createElement('li');
-    // taskItem.innerHTML = `
-    // <li class="task-item">
-    //     ${newTask.taskName}
-    //     <label for="${newTask.taskName}Completed">completed</label>
-    //     <input type="checkbox" class="completed" id="${newTask.taskName}Completed"/>
-    // </li>
-    // `
-    // // const completed = document.getElementById('${newTask}Completed');
-    // // console.log(tasks, newTask );
-    // taskList.appendChild(taskItem);
-    // // addTask(newTask);
+const removeTaskItem =()=> {
+    for(let i = 0; i < tasks.length; i++) {
+        if (tasks[i].status == true) {
+            console.log(tasks[i])
+            // remove the task from the task list
+        }
+    }
+    console.log(tasks, completedTasksArray)
+
+}

@@ -8,6 +8,19 @@ header, main {
     padding: 20px;
 }
 
-li .completed {
-    text-decoration: line-through;
+h1 {
+    font-size: calc(14px + (56 - 14) * ((100vw - 300px) / (1600 - 300)));
 }
+
+h2 {
+    font-size: calc(14px + (36 - 14) * ((100vw - 300px) / (1600 - 300)));
+}
+
+
+#newTaskForm, #taskList, #completedTasksList {
+    border: 2px solid indigo;
+}
+
+/* li .completed {
+    text-decoration: line-through;
+} */
