@@ -97,9 +97,7 @@ addCompletedTask =(completedTasksArray)=> {
         
         listItem.innerHTML = `
         <li class="task-item" id=item${element.id}>
-        ${element.taskName}
-        <label for="${element.taskName}Completed">completed</label>
-        <input type="checkbox" class="checkbox" id="${element.taskName}Checkbox"/>
+            ${element.taskName}
         </li>
         `
         completedTasksList.appendChild(listItem);
@@ -109,12 +107,11 @@ addCompletedTask =(completedTasksArray)=> {
 }
 
 const removeTaskItem =()=> {
+    console.log('removeTaskItem begins')
     for(let i = 0; i < tasks.length; i++) {
         if (tasks[i].status == true) {
-            console.log(tasks[i])
-            // remove the task from the task list
+            let removedItem = document.getElementById(`item${tasks[i].id}`)
+            removedItem.parentNode.removeChild(removedItem)
         }
     }
-    console.log(tasks, completedTasksArray)
-
 }
